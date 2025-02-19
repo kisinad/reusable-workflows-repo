@@ -1,0 +1,41 @@
+name: Reusable SSH Setup
+
+on:
+  workflow_call:
+    inputs:
+      SSH_PUB_KEY:
+        description: 'Public SSH key'
+        required: true
+        type: string
+      SSH_PASSPHRASE:
+        description: 'SSH key passphrase'
+        required: true
+        type: string
+      FTP_HOST:
+        description: 'FTP Host'
+        required: true
+        type: string
+
+jobs:
+  setup-ssh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Key
+        env:
+          SSH_PUB_KEY: ${{ inputs.SSH_PUB_KEY }}
+          SSH_PASSPHRASE: ${{ inputs.SSH_PASSPHRASE }}
+          FTP_HOST: ${{ inputs.FTP_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          touch ~/.ssh/config
+          touch ~/.ssh/known_hosts
+          echo "$SSH_PUB_KEY" > ~/.ssh/id_rsa.pub
+          chmod 600 ~/.ssh/id_rsa.pub
+          chmod 700 ~/.ssh
+          eval "$(ssh-agent -s)"
+          ssh-keygen -p -P "$SSH_PASSPHRASE" -N "" -f ~/.ssh/id_rsa.pub
+          ssh-add ~/.ssh/id_rsa.pub
+          ssh-keyscan -p 65002 $FTP_HOST >> ~/.ssh/known_hosts
