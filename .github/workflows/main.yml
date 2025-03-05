@@ -5,10 +5,4 @@ on:
 
 jobs:
   call-codeql-workflow:
-    runs-on: ubuntu-latest
-    name: Version
-    steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/workflows/main2.yml  
-
-
+    uses: ./.github/workflows/main2.yml  # Update with actual org/repo and branch
