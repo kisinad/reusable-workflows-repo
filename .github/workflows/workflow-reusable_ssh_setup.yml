@@ -1,41 +1,52 @@
-name: Reusable SSH Setup
+name: Reusable CodeQL Workflow
 
 on:
   workflow_call:
     inputs:
-      SSH_PUB_KEY:
-        description: 'Public SSH key'
-        required: true
+      java_version:
+        description: "Java version to use"
+        required: false
+        default: "17"
         type: string
-      SSH_PASSPHRASE:
-        description: 'SSH key passphrase'
-        required: true
+      codeql_queries:
+        description: "CodeQL queries to use"
+        required: false
+        default: "security-extended"
         type: string
-      FTP_HOST:
-        description: 'FTP Host'
-        required: true
-        type: string
+    secrets:
+      maven_credentials:
+        description: "Maven credentials if needed"
+        required: false
 
 jobs:
-  setup-ssh:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      java_version: ${{ inputs.java_version }}
+    secrets:
+      maven_credentials: ${{ secrets.maven_credentials }}
+
+  codeql-analysis:
+    name: Java CodeQL Analysis
+    needs: build
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      actions: read
+      contents: read
+      security-events: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup SSH Key
-        env:
-          SSH_PUB_KEY: ${{ inputs.SSH_PUB_KEY }}
-          SSH_PASSPHRASE: ${{ inputs.SSH_PASSPHRASE }}
-          FTP_HOST: ${{ inputs.FTP_HOST }}
-        run: |
-          mkdir -p ~/.ssh
-          touch ~/.ssh/config
-          touch ~/.ssh/known_hosts
-          echo "$SSH_PUB_KEY" > ~/.ssh/id_rsa.pub
-          chmod 600 ~/.ssh/id_rsa.pub
-          chmod 700 ~/.ssh
-          eval "$(ssh-agent -s)"
-          ssh-keygen -p -P "$SSH_PASSPHRASE" -N "" -f ~/.ssh/id_rsa.pub
-          ssh-add ~/.ssh/id_rsa.pub
-          ssh-keyscan -p 65002 $FTP_HOST >> ~/.ssh/known_hosts
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          debug: true
+          languages: "java"
+          queries: ${{ inputs.codeql_queries }}
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          queries: ${{ inputs.codeql_queries }}
