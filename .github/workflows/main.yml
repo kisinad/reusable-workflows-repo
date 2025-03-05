@@ -7,10 +7,10 @@ on:
 
 jobs:
   call-codeql-workflow:
-    uses: ./guthub/workflows/output.yml@main
+    uses: ./.github/workflows/output.yml@main
 
   use-app-version:
     needs: call-codeql-workflow
-    uses: ./guthub/workflows/app-version.yml@main
+    uses: ./.github/workflows/app-version.yml@main
     with:
       app_version: ${{ needs.call-codeql-workflow.outputs.app_version }}
