@@ -1,8 +1,7 @@
 name: Main Workflow
 
 on:
-  workflow_dispatch:  
-    
+  workflow_dispatch:
 
 jobs:
   call-codeql-workflow:
@@ -12,4 +11,3 @@ jobs:
     - uses: ./.github/workflows/main2.yml  
 
 
-    
