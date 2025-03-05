@@ -1,0 +1,24 @@
+name: Reusable CodeQL Workflow
+
+on:
+  workflow_call:
+    outputs:
+      app_version:
+        description: "Extracted application version"
+        value: ${{ jobs.version.outputs.app_version }}
+
+jobs:
+  version:
+    name: Java CodeQL Analysis
+    runs-on: ubuntu-latest
+    outputs:
+      app_version: ${{ steps.ver.outputs.app_version }}
+  
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Extract Application Version
+        id: ver
+        run: |
+          echo "app_version=1.0.11" >> $GITHUB_OUTPUT

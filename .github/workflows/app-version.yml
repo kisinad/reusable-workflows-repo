@@ -1,0 +1,19 @@
+name: Use App Version Workflow
+
+on:
+  workflow_call:
+    inputs:
+      app_version:
+        description: "Application version from the previous workflow"
+        required: true
+        type: string
+
+jobs:
+  print-version:
+    name: Print App Version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Application Version
+        run: |
+          echo "The extracted application version is: ${{ inputs.app_version }}"
