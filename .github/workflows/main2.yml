@@ -1,0 +1,9 @@
+jobs:
+  call-codeql-workflow:
+    uses: ./.github/workflows/output.yml
+
+  use-app-version:
+    needs: call-codeql-workflow
+    uses: ./.github/workflows/app-version.yml
+    with:
+      app_version: ${{ needs.call-codeql-workflow.outputs.app_version }}

@@ -1,16 +1,10 @@
 name: Main Workflow
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+
 
 jobs:
   call-codeql-workflow:
-    uses: ./.github/workflows/output.yml
+    uses: ./.github/workflows/main2.yml
 
-  use-app-version:
-    needs: call-codeql-workflow
-    uses: ./.github/workflows/app-version.yml
-    with:
-      app_version: ${{ needs.call-codeql-workflow.outputs.app_version }}
