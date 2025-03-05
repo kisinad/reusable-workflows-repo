@@ -1,10 +1,12 @@
 name: Main Workflow
 
 on:
-  workflow_call:
-
+  workflow_dispatch:  
+    
 
 jobs:
   call-codeql-workflow:
-    uses: ./.github/workflows/main2.yml
-
+    runs-on: ubuntu-latest
+    name: Version
+    steps:
+    - uses: ./.github/workflows/main2.yml  
