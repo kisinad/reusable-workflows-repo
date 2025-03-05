@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Version
     steps:
+    - uses: actions/checkout@v4
     - uses: ./.github/workflows/main2.yml  
 
 
