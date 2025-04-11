@@ -3,6 +3,16 @@ name: Main Workflow
 on:
   workflow_dispatch:
 
+env:
+  TEST: ${{ vars.TEST }}
+
 jobs:
-  call-codeql-workflow:
+  echo-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo TEST env var
+        run:
+          echo "TEST is $TEST"
+
+  test:
     uses: ./.github/workflows/main2.yml  # Update with actual org/repo and branch
