@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Echo TEST env var
         run:
-          echo "TEST inside is $TEST"
+          echo "TEST inside is ${{ env.TEST }}"
 
   call-codeql-workflow:
     uses: ./.github/workflows/output.yml
