@@ -59,7 +59,7 @@ jobs:
       run: echo "$MATRIX_CONTEXT"
     - name: Write env context to log
       env:
-        ENV_CONTEXT: ${{ toJSON(env) }}
+        ENV_CONTEXT: ${{ toJSON(vars) }}
       run: |
         t=${{ vars.TEST }}
         echo "TEST=${{ vars.TEST }}" >> $GITHUB_ENV
