@@ -6,8 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo TEST env var
-        run:
-          echo "TEST=${{vars.TEST}}" >> $GITHUB_ENV
+        run: echo "TEST=${{vars.TEST}}" >> $GITHUB_ENV
 
   echo-inside-test-123:
     runs-on: ubuntu-latest
