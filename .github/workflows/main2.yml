@@ -12,7 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo TEST env var
-        run:
+        run: |
+          echo "TEST=${{vars.TEST}}" >> $GITHUB_ENV
+
           echo "TEST=$TEST"
 
   call-codeql-workflow:
