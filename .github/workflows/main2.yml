@@ -60,10 +60,14 @@ jobs:
     - name: Write env context to log
       env:
         ENV_CONTEXT: ${{ toJSON(env) }}
-      run: echo "$ENV_CONTEXT"
+      run: |
+        echo "$ENV_CONTEXT"
+
     - name: Write secrets context to log
       env:
         SECRETS_CONTEXT: ${{ toJSON(secrets) }}
-      run: echo "$SECRETS_CONTEXT"
+      run: |
+        echo "$SECRETS_CONTEXT"
+        echo "SECRETS_CONTEXT=$SECRETS_CONTEXT" >> $GITHUB_ENV
     - name: Echo secret
       run: echo "$SECRETS_CONTEXT"
