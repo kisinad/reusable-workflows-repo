@@ -67,7 +67,7 @@ jobs:
       env:
         SECRETS_CONTEXT: ${{ toJSON(secrets) }}
       run: |
-        echo "$SECRETS_CONTEXT"
-        echo "SECRETS_CONTEXT=${SECRETS_CONTEXT}" >> $GITHUB_ENV
+        echo echo "SECRETS_CONTEXT=$(echo '${{ toJSON(secrets) }}' | jq -c .)" >> $GITHUB_ENV
+
     - name: Echo secret
       run: echo "$SECRETS_CONTEXT"
