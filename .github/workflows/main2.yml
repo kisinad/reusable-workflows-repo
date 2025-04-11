@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Echo TEST env var
         run:
-          echo "TEST=$TEST
+          echo "TEST=$TEST"
 
   call-codeql-workflow:
     uses: ./.github/workflows/output.yml
