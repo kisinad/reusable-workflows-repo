@@ -14,8 +14,8 @@ jobs:
       - name: Echo TEST env var
         run: |
           echo "TEST=${{vars.TEST}}" >> $GITHUB_ENV
-
-          echo "TEST=$TEST"
+          echo ...
+          echo $TEST
 
   call-codeql-workflow:
     uses: ./.github/workflows/output.yml
