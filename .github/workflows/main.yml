@@ -13,6 +13,9 @@ jobs:
       - name: Echo TEST env var
         run:
           echo "TEST is $TEST"
+    env:
+      TEST: ${{ vars.TEST }}
 
   test:
     uses: ./.github/workflows/main2.yml  # Update with actual org/repo and branch
+
