@@ -65,3 +65,5 @@ jobs:
       env:
         SECRETS_CONTEXT: ${{ toJSON(secrets) }}
       run: echo "$SECRETS_CONTEXT"
+    - name: Echo secret
+      run: echo "$SECRETS_CONTEXT"
