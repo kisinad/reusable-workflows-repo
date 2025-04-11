@@ -2,6 +2,13 @@ on:
  workflow_call:  
 
 jobs:
+  echo-inside-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo TEST env var
+        run:
+          echo "TEST inside is $TEST"
+
   call-codeql-workflow:
     uses: ./.github/workflows/output.yml
 
